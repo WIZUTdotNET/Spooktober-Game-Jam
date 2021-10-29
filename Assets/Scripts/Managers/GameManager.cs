@@ -68,6 +68,9 @@ namespace Managers
         public BigInteger Souls { get; private set; } = BigInteger.Zero;
         public IEnumerable<Upgrade> Upgrades { get; set; } = new List<Upgrade>();
         public IEnumerable<Generator> Generators { get; set; } = new List<Generator>();
+        
+        // I don't know where to put it so for now it will be here (by aweczet)
+        [SerializeField] private GameObject soulPrefab;
 
         private void Awake()
         {
@@ -90,7 +93,7 @@ namespace Managers
         bool _firstFramePassed = false;
         void Update()
         {
-            Debug.Log(Souls);
+            // Debug.Log(Souls);
             if (_firstFramePassed)
                 return;
             _firstFramePassed = true;
@@ -184,6 +187,7 @@ namespace Managers
         public void Click()
         {
             Souls += SoulsPerClick;
+            Instantiate(soulPrefab);
             OnClick?.Invoke(this, new OnClickEventArgs(Souls));
         }
 
