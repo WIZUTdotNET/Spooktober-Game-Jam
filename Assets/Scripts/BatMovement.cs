@@ -1,45 +1,45 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class BatMovement : MonoBehaviour
 {
-    [SerializeField] private Transform[] routes;
-    private float tParam;
-    private Vector2 position;
+    [SerializeField] protected Transform[] routes;
+    private float _tParam;
+    private Vector2 _position;
     public float speed;
-    private bool contunue;
+    private bool _continue;
 
     private void Start()
     {
-        tParam = 0f;
+        _tParam = 0f;
         speed = 0.5f;
-        contunue = true;
+        _continue = true;
     }
 
     private void Update()
     {
-        if(contunue)
+        if (_continue)
             StartCoroutine(GoByRoute());
     }
 
     private IEnumerator GoByRoute()
     {
-        contunue = false;
-        while (tParam< 1)
+        _continue = false;
+        while (_tParam < 1)
         {
-            tParam += Time.deltaTime * speed;
+            _tParam += Time.deltaTime * speed;
             Vector2 p0 = routes[0].GetChild(0).position;
             Vector2 p1 = routes[0].GetChild(1).position;
             Vector2 p2 = routes[0].GetChild(2).position;
             Vector2 p3 = routes[0].GetChild(3).position;
-            position = Mathf.Pow(1 - tParam, 3) * p0 +
-                       3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
-                       3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
-                       Mathf.Pow(tParam, 3) * p3;
+            _position = Mathf.Pow(1 - _tParam, 3) * p0 +
+                        3 * Mathf.Pow(1 - _tParam, 2) * _tParam * p1 +
+                        3 * (1 - _tParam) * Mathf.Pow(_tParam, 2) * p2 +
+                        Mathf.Pow(_tParam, 3) * p3;
 
-            transform.position = position;
+            transform.position = _position;
             yield return new WaitForEndOfFrame();
         }
-    }    
+        Destroy(transform.parent.gameObject);
+    }
 }
